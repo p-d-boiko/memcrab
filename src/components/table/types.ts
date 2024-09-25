@@ -1,3 +1,11 @@
+import type { Cell } from 'root:types'
+
 type CellClickHandler = ({ row, col, amount }: { row: number; col: number; amount: number }) => () => void
 
-export type { CellClickHandler }
+type RowSumCalculator = (row: Cell[]) => number
+
+type ColAverageCalculator = (colIndex: number) => number
+
+type MouseOverHandler = (cell?: Cell) => () => void
+
+export type { CellClickHandler, MouseOverHandler, RowSumCalculator, ColAverageCalculator }

@@ -46,6 +46,14 @@
     display: inline-block;
   }
 
+  tbody td:not(:last-of-type):hover {
+    background-color: var(--hover-bg-color);
+  }
+
+  tbody td.nearest {
+    background-color: var(--highlight-bg-color);
+  }
+
   tfoot td:not(:last-of-type)::before {
     content: 'x̄ =';
     margin-right: 0.3em;
