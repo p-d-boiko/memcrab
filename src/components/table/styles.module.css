@@ -6,7 +6,11 @@
   transform-origin: center;
   transition-duration: 150ms;
   transition-property: transform opacity;
-  transition-timing-function: ease-in-out;
+  transition-timing-function: ease-out;
+
+  tr {
+    position: relative;
+  }
 
   td {
     height: 3em;
@@ -56,6 +60,25 @@
 
   tbody td.highlighted {
     background-color: var(--highlight-bg-color);
+  }
+
+  th[scope='row'] {
+    position: absolute;
+    left: -24px;
+    width: 48px;
+    height: 100%;
+    align-content: center;
+    opacity: 0;
+    cursor: pointer;
+
+    transition-duration: 150ms;
+    transition-property: opacity left;
+    transition-timing-function: ease-out;
+  }
+
+  tr:hover th[scope='row'] {
+    left: -48px;
+    opacity: 1;
   }
 
   tfoot td:not(:last-of-type)::before {

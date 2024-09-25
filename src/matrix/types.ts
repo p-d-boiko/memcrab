@@ -6,6 +6,7 @@ type MatrixContextType = {
   chooseNearest(value?: Cell): void
   updateCell({ row, col, amount }: { row: number; col: number; amount: number }): void
   updateMatrix({ rows, cols }: { rows: number; cols: number }): void
+  deleteRow(index: number): void
 }
 
 export type { MatrixContextType }

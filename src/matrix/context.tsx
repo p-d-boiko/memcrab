@@ -10,6 +10,7 @@ const MatrixContext: Context<MatrixContextType> = createContext<MatrixContextTyp
   chooseNearest: () => {},
   updateCell: () => {},
   updateMatrix: () => {},
+  deleteRow: () => {},
 })
 
 const MatrixContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
@@ -22,11 +23,19 @@ const MatrixContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
       ),
     )
   }
-  const updateCell = ({ row, col, amount }: { row: number; col: number; amount: number }) => {
+  const updateCell: MatrixContextType['updateCell'] = ({
+    row,
+    col,
+    amount,
+  }: {
+    row: number
+    col: number
+    amount: number
+  }) => {
     matrix[row][col].amount = amount
     setMatrix([...matrix])
   }
-  const chooseNearest = (hoveredCell?: Cell) => {
+  const chooseNearest: MatrixContextType['chooseNearest'] = (hoveredCell?: Cell) => {
     if (hoveredCell === undefined) {
       setNearest([])
     } else {
@@ -42,9 +51,14 @@ const MatrixContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
       setNearest(ids)
     }
   }
+  const deleteRow: MatrixContextType['deleteRow'] = (rowIndex) => {
+    const newMatrix = [...matrix]
+    newMatrix.splice(rowIndex, 1)
+    setMatrix(newMatrix)
+  }
 
   return (
-    <MatrixContext.Provider value={{ matrix, nearest, chooseNearest, updateMatrix, updateCell }}>
+    <MatrixContext.Provider value={{ matrix, nearest, chooseNearest, updateMatrix, updateCell, deleteRow }}>
       {children}
     </MatrixContext.Provider>
   )

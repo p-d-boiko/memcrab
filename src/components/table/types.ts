@@ -10,4 +10,13 @@ type MouseOverCellHandler = (cell?: Cell) => () => void
 
 type MouseOverSumHandler = (rowIndex?: number) => () => void
 
-export type { CellClickHandler, MouseOverCellHandler, RowSumCalculator, ColAverageCalculator, MouseOverSumHandler }
+type RowHeaderClickHandler = (rowIndex: number) => () => void
+
+export type {
+  CellClickHandler,
+  ColAverageCalculator,
+  MouseOverCellHandler,
+  MouseOverSumHandler,
+  RowHeaderClickHandler,
+  RowSumCalculator,
+}

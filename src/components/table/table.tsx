@@ -10,12 +10,13 @@ import type {
   ColAverageCalculator,
   MouseOverCellHandler,
   MouseOverSumHandler,
+  RowHeaderClickHandler,
   RowSumCalculator,
 } from './types'
 
 const Table: FC = () => {
   const [percentageRow, setPercentageRow] = useState<number | undefined>()
-  const { matrix, updateCell, chooseNearest, nearest } = useMatrix()
+  const { matrix, updateCell, chooseNearest, nearest, deleteRow } = useMatrix()
   const handleCellClick: CellClickHandler =
     ({ row, col, amount }) =>
     () => {
@@ -32,12 +33,18 @@ const Table: FC = () => {
   const handleMouseOverSum: MouseOverSumHandler = (rowIndex) => () => {
     setPercentageRow(rowIndex)
   }
+  const handleRowHeaderClick: RowHeaderClickHandler = (rowIndex) => () => {
+    deleteRow(rowIndex)
+  }
 
   return (
     <table className={classNames({ [styles.matrix]: true, [styles['matrix-visible']]: !!matrix.length })}>
       <tbody>
         {matrix.map((row, i) => (
           <tr key={i}>
+            <th scope="row" onClick={handleRowHeaderClick(i)}>
+              ❌
+            </th>
             {row.map((cell, j) => {
               const isHighlighted = nearest.includes(cell.id) || percentageRow === i
 
@@ -61,6 +68,7 @@ const Table: FC = () => {
       </tbody>
       <tfoot>
         <tr>
+          <th scope="row"></th>
           {matrix[0]?.map((cell, i) => (
             <td key={i}>
               {String(calculateAvg(i))
