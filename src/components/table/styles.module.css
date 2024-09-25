@@ -1,0 +1,60 @@
+.matrix {
+  border-collapse: collapse;
+  opacity: 0;
+
+  transform: scale(0.9);
+  transform-origin: center;
+  transition-duration: 150ms;
+  transition-property: transform opacity;
+  transition-timing-function: ease-in-out;
+
+  td {
+    height: 3em;
+    width: 6em;
+    max-width: 6em;
+    user-select: none;
+    padding: 0.5em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  tbody td + td,
+  tfoot td + td {
+    border-left: 1px solid var(--border-color);
+  }
+
+  tbody tr + tr td,
+  tfoot td {
+    border-top: 1px solid var(--border-color);
+
+    span + span::before {
+      content: '.';
+      display: inline-block;
+    }
+
+    span + span {
+      font-size: 0.65em;
+      opacity: 0.65;
+    }
+  }
+
+  tbody td:last-of-type::before {
+    content: 'Σ =';
+    margin-right: 0.3em;
+    opacity: 0.65;
+    display: inline-block;
+  }
+
+  tfoot td:not(:last-of-type)::before {
+    content: 'x̄ =';
+    margin-right: 0.3em;
+    opacity: 0.65;
+    display: inline-block;
+  }
+}
+
+.matrix-visible {
+  opacity: 1;
+  transform: scale(1);
+}

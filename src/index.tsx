@@ -1,11 +1,14 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 
-import App from './App.tsx'
-import './styles/index.css'
+import App from 'root:app'
+import { MatrixContextProvider } from 'root:matrix'
+import 'root:styles/index.css'
 
-createRoot(document.getElementById('root')!).render(
+createRoot(document.getElementById('app')!).render(
   <StrictMode>
-    <App />
+    <MatrixContextProvider>
+      <App />
+    </MatrixContextProvider>
   </StrictMode>,
 )
