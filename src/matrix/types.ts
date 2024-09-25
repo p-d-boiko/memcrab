@@ -7,6 +7,7 @@ type MatrixContextType = {
   updateCell({ row, col, amount }: { row: number; col: number; amount: number }): void
   updateMatrix({ rows, cols }: { rows: number; cols: number }): void
   deleteRow(index: number): void
+  appendRow(): void
 }
 
 export type { MatrixContextType }

@@ -16,7 +16,7 @@ import type {
 
 const Table: FC = () => {
   const [percentageRow, setPercentageRow] = useState<number | undefined>()
-  const { matrix, updateCell, chooseNearest, nearest, deleteRow } = useMatrix()
+  const { matrix, updateCell, chooseNearest, nearest, deleteRow, appendRow } = useMatrix()
   const handleCellClick: CellClickHandler =
     ({ row, col, amount }) =>
     () => {
@@ -68,7 +68,9 @@ const Table: FC = () => {
       </tbody>
       <tfoot>
         <tr>
-          <th scope="row"></th>
+          <th scope="row" onClick={appendRow}>
+            +
+          </th>
           {matrix[0]?.map((cell, i) => (
             <td key={i}>
               {String(calculateAvg(i))

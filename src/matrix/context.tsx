@@ -11,6 +11,7 @@ const MatrixContext: Context<MatrixContextType> = createContext<MatrixContextTyp
   updateCell: () => {},
   updateMatrix: () => {},
   deleteRow: () => {},
+  appendRow: () => {},
 })
 
 const MatrixContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
@@ -56,9 +57,19 @@ const MatrixContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
     newMatrix.splice(rowIndex, 1)
     setMatrix(newMatrix)
   }
+  const appendRow: MatrixContextType['appendRow'] = () => {
+    const newMatrix = [...matrix]
+    newMatrix.push(
+      Array.from({ length: matrix[0].length }, (_, j) => ({
+        id: matrix.length * matrix[0].length + j,
+        amount: Math.ceil(Math.random() * matrix.length * matrix[0].length),
+      })),
+    )
+    setMatrix(newMatrix)
+  }
 
   return (
-    <MatrixContext.Provider value={{ matrix, nearest, chooseNearest, updateMatrix, updateCell, deleteRow }}>
+    <MatrixContext.Provider value={{ matrix, nearest, chooseNearest, updateMatrix, updateCell, deleteRow, appendRow }}>
       {children}
     </MatrixContext.Provider>
   )
