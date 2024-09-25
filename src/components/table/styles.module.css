@@ -50,6 +50,10 @@
     background-color: var(--hover-bg-color);
   }
 
+  tbody td:not(:last-of-type) {
+    cursor: pointer;
+  }
+
   tbody td.highlighted {
     background-color: var(--highlight-bg-color);
   }
