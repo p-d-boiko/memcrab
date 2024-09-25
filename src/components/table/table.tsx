@@ -1,13 +1,20 @@
-import { type FC } from 'react'
+import { useState, type FC } from 'react'
 import classNames from 'classnames'
 
 import { useMatrix } from 'root:matrix'
 import { Cell } from 'root:types'
 
 import styles from './styles.module.css'
-import type { CellClickHandler, MouseOverHandler, ColAverageCalculator, RowSumCalculator } from './types'
+import type {
+  CellClickHandler,
+  ColAverageCalculator,
+  MouseOverCellHandler,
+  MouseOverSumHandler,
+  RowSumCalculator,
+} from './types'
 
 const Table: FC = () => {
+  const [percentageRow, setPercentageRow] = useState<number | undefined>()
   const { matrix, updateCell, chooseNearest, nearest } = useMatrix()
   const handleCellClick: CellClickHandler =
     ({ row, col, amount }) =>
@@ -16,11 +23,14 @@ const Table: FC = () => {
       chooseNearest({ id: matrix[row][col].id, amount: amount + 1 })
     }
   const calculateSum: RowSumCalculator = (row: Cell[]) => row.reduce((a, b) => a + b.amount, 0)
-  const calculateAvg: ColAverageCalculator = (index: number) => {
+  const calculateAvg: ColAverageCalculator = (index) => {
     return matrix.reduce((a, b) => a + b[index].amount, 0) / matrix.length
   }
-  const handleMouseOver: MouseOverHandler = (cell) => () => {
+  const handleMouseOverCell: MouseOverCellHandler = (cell) => () => {
     chooseNearest(cell)
+  }
+  const handleMouseOverSum: MouseOverSumHandler = (rowIndex) => () => {
+    setPercentageRow(rowIndex)
   }
 
   return (
@@ -28,18 +38,24 @@ const Table: FC = () => {
       <tbody>
         {matrix.map((row, i) => (
           <tr key={i}>
-            {row.map((cell, j) => (
-              <td
-                key={cell.id}
-                onMouseOver={handleMouseOver(cell)}
-                onMouseOut={handleMouseOver()}
-                onClick={handleCellClick({ row: i, col: j, amount: cell.amount })}
-                className={classNames({ [styles.nearest]: nearest.includes(cell.id) })}
-              >
-                {cell.amount}
-              </td>
-            ))}
-            <td>{calculateSum(row)}</td>
+            {row.map((cell, j) => {
+              const isHighlighted = nearest.includes(cell.id) || percentageRow === i
+
+              return (
+                <td
+                  key={cell.id}
+                  onMouseOver={handleMouseOverCell(cell)}
+                  onMouseOut={handleMouseOverCell()}
+                  onClick={handleCellClick({ row: i, col: j, amount: cell.amount })}
+                  className={classNames({ [styles.highlighted]: isHighlighted })}
+                >
+                  {percentageRow === i ? `${Math.round((cell.amount / calculateSum(row)) * 100)}%` : cell.amount}
+                </td>
+              )
+            })}
+            <td onMouseOver={handleMouseOverSum(i)} onMouseOut={handleMouseOverSum()}>
+              {calculateSum(row)}
+            </td>
           </tr>
         ))}
       </tbody>

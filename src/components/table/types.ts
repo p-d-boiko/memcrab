@@ -6,6 +6,8 @@ type RowSumCalculator = (row: Cell[]) => number
 
 type ColAverageCalculator = (colIndex: number) => number
 
-type MouseOverHandler = (cell?: Cell) => () => void
+type MouseOverCellHandler = (cell?: Cell) => () => void
 
-export type { CellClickHandler, MouseOverHandler, RowSumCalculator, ColAverageCalculator }
+type MouseOverSumHandler = (rowIndex?: number) => () => void
+
+export type { CellClickHandler, MouseOverCellHandler, RowSumCalculator, ColAverageCalculator, MouseOverSumHandler }
