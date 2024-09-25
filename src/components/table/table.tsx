@@ -61,12 +61,12 @@ const Table: FC = () => {
       </tbody>
       <tfoot>
         <tr>
-          {matrix[0]?.map((_, i) => (
+          {matrix[0]?.map((cell, i) => (
             <td key={i}>
               {String(calculateAvg(i))
                 .split('.')
                 .map((part) => (
-                  <span>{part}</span>
+                  <span key={`${cell.id}-${part}`}>{part}</span>
                 ))}
             </td>
           ))}
