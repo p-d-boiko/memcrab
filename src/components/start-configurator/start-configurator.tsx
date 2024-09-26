@@ -1,9 +1,10 @@
-import { useState, type FC, type ChangeEventHandler, type TransitionEventHandler, type FormEventHandler } from 'react'
+import { useState, type FC, type ChangeEventHandler, type FormEventHandler } from 'react'
 import classNames from 'classnames'
 
 import { useMatrix } from 'root:matrix'
 
 import styles from './styles.module.css'
+import type { CreateMatrixHandler } from './types'
 
 const StartConfigurator: FC = () => {
   const [rows, setRows] = useState(0)
@@ -24,22 +25,24 @@ const StartConfigurator: FC = () => {
     setVisible(false)
   }
 
-  const createMatrix: TransitionEventHandler<HTMLFormElement> = (e) => {
-    e.currentTarget.remove()
-    updateMatrix({ cols, rows })
-  }
+  const createMatrix: CreateMatrixHandler =
+    ({ rows, cols }) =>
+    (e) => {
+      e.currentTarget.remove()
+      updateMatrix({ rows, cols })
+    }
 
   return (
     <form
       onSubmit={hideForm}
-      onTransitionEnd={createMatrix}
+      onTransitionEnd={createMatrix({ rows, cols })}
       className={classNames({
         [styles.form]: true,
         [styles.hidden]: !visible,
       })}
     >
       Please provide initial matrix size
-      <div>
+      <div className={classNames({ [styles.inputs]: true })}>
         <input id="number-of-rows" type="number" value={rows} onChange={handleRowsChange} min={0} max={100} autoFocus />
         x
         <input id="number-of-cols" type="number" value={cols} onChange={handleColsChange} min={0} max={100} />
