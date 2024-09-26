@@ -2,6 +2,27 @@
   transition-duration: 150ms;
   transition-property: transform opacity;
   transition-timing-function: ease-in-out;
+
+  .inputs {
+    display: flex;
+    gap: 0.5em;
+    padding-block: 2em;
+    justify-content: center;
+    align-items: center;
+  }
+
+  input {
+    border: none;
+    border-radius: unset;
+    padding: 0.5em;
+    min-width: 5em;
+    font-size: inherit;
+    font-family: inherit;
+  }
+
+  input[type='submit'] {
+    padding-inline: 1em;
+  }
 }
 
 .hidden {
